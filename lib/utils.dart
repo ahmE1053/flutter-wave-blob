@@ -24,8 +24,8 @@ class Utils {
       // transform: GradientRotation(angle ?? 10 / 10),
       colors: colors ??
           [
-            const Color(0xff2BCEFF).withOpacity(0.3),
-            const Color(0xff0976E3).withOpacity(0.3),
+            const Color(0xff2BCEFF).withValues(alpha: 0.3),
+            const Color(0xff0976E3).withValues(alpha: 0.3),
           ],
     ).createShader(
       Rect.fromCircle(center: Offset(x, y), radius: 50.0),

@@ -167,8 +167,8 @@ class WaveDrawable {
       _colors = colors;
     } else {
       _colors = [
-        const Color(0xff2BCEFF).withOpacity(0.3),
-        const Color(0xff0976E3).withOpacity(0.3),
+        const Color(0xff2BCEFF).withValues(alpha: 0.3),
+        const Color(0xff0976E3).withValues(alpha: 0.3),
       ];
     }
   }
