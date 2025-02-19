@@ -9,7 +9,7 @@ class Utils {
   static const double maxAmplitude = 8500;
   static const double maxScale = 1.3;
 
-  static int get randomNumber => _random.nextInt(1 << 32) - (1 << 31);
+  static int get randomNumber => _random.nextInt(1 << 31);
 
   static Shader createShader(
     double x,
