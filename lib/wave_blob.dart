@@ -5,6 +5,8 @@ import 'package:wave_blob/wave_paint.dart';
 class WaveBlob extends StatefulWidget {
   final Widget child;
 
+  final AnimationController? animationController;
+
   /// Scale of blobs. It just work when autoScale sets to false
   final double scale;
 
@@ -44,19 +46,31 @@ class WaveBlob extends StatefulWidget {
     this.centerCircle = true,
     this.circleColors,
     this.colors,
+    this.animationController,
   });
 
   @override
   State<WaveBlob> createState() => _WaveBlobState();
 }
 
-class _WaveBlobState extends State<WaveBlob> {
+class _WaveBlobState extends State<WaveBlob>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
   List<WaveDrawable> blobs = [];
+
+  AnimationController get controller =>
+      widget.animationController ?? _controller!;
 
   @override
   void initState() {
     super.initState();
-
+    if (widget.animationController == null) {
+      _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 250),
+      );
+      _controller!.repeat();
+    }
     var length = widget.blobCount > 5 ? 5 : widget.blobCount;
     for (int i = 0; i < length; i++) {
       blobs.add(WaveDrawable(8 + i));
@@ -65,6 +79,12 @@ class _WaveBlobState extends State<WaveBlob> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,13 +98,13 @@ class _WaveBlobState extends State<WaveBlob> {
           ErrorWidget.builder = (error) => Container();
           throw ("Can't get infinite width or height. Please set dimensions for BlobWave widget");
         }
-
         return CustomPaint(
           painter: WavePaint(
             waves: blobs,
             width: constraints.maxWidth,
             height: constraints.maxHeight,
             scale: widget.scale,
+            controller: controller,
             amplitude: widget.amplitude,
             autoScale: widget.autoScale,
             overCircle: widget.overCircle,

@@ -11,6 +11,7 @@ class WavePaint extends CustomPainter {
   final double width;
   final double scale;
   final double speed;
+  final AnimationController controller;
   final double amplitude;
   final bool autoScale;
   final bool overCircle;
@@ -30,7 +31,8 @@ class WavePaint extends CustomPainter {
     required this.overCircle,
     required this.centerCircle,
     required this.circleColors,
-  });
+    required this.controller,
+  }):super(repaint: controller);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -56,7 +58,7 @@ class WavePaint extends CustomPainter {
 
     if (centerCircle && overCircle) {
       canvas.save();
-      canvas.drawCircle(Offset(cX, cY), waves[0].minRadius, cPaint);
+      canvas.drawCircle(Offset(cX, cY), cX, cPaint);
       canvas.restore();
     }
 
@@ -83,7 +85,7 @@ class WavePaint extends CustomPainter {
 
     if (centerCircle && !overCircle) {
       canvas.save();
-      canvas.drawCircle(Offset(cX, cY), waves[0].minRadius, cPaint);
+      canvas.drawCircle(Offset(cX, cY), cY, cPaint);
       canvas.restore();
     }
   }
